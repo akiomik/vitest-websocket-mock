@@ -8,7 +8,7 @@ import { expect } from 'vitest';
 import type { CustomMatchers } from './matchers';
 import * as matchers from './matchers';
 
-declare module 'vitest' {
+declare module '@vitest/expect' {
   // eslint-disable-next-line @typescript-eslint/no-empty-interface, @typescript-eslint/no-explicit-any
   interface Assertion<T = any> extends CustomMatchers<T> {}
 
