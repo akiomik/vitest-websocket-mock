@@ -2,15 +2,12 @@
 coverage
 examples
 node_modules
-.eslintignore
-.eslintrc.cjs
+biome.json
 .gitignore
 .node-version
 .npmignore
 .npmrc
-.prettierignore
-.prettierrc
 tsconfig.json
-tsup.config.ts
+tsdown.config.ts
 vite.config.ts
 *.tgz
