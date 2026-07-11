@@ -19,6 +19,7 @@
     "clean": "rimraf dist",
     "prebuild": "npm run clean",
     "build": "tsup",
+    "typecheck": "tsc --noEmit",
     "lint": "biome check .",
     "format": "biome check --write .",
     "prepublishOnly": "npm run build",
@@ -35,10 +36,11 @@
   "license": "MIT",
   "devDependencies": {
     "@biomejs/biome": "^2.5.3",
+    "@types/node": "^26.1.1",
     "@vitest/coverage-v8": "4.1.1",
     "rimraf": "^4.1.2",
     "tsup": "^8.5.1",
-    "typescript": "^4.0.2",
+    "typescript": "^6.0.3",
     "vite": "^8.1.4",
     "vitest": "4.1.1"
   },
