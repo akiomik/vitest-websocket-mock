@@ -97,7 +97,7 @@ A `WS` instance has the following attributes:
 on received messages easier:
 
 - `.toReceiveMessage`: async matcher that waits for the next message received
-  by the the mock websocket server, and asserts its content. It will time out
+  by the mock websocket server, and asserts its content. It will time out
   with a helpful message after 1000ms.
 - `.toHaveReceivedMessages`: synchronous matcher that checks that all the
   expected messages have been received by the mock websocket server.
