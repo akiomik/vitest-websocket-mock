@@ -31,11 +31,13 @@ jobs:
           cd examples/redux-saga
           npm install
           npm test -- --coverage
+          npm run build
       - name: test examples/hooks
         run: |
           cd examples/hooks
           npm install
           npm test -- --coverage
+          npm run build
 
   coverage:
     needs: build
