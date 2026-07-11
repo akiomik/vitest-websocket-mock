@@ -21,7 +21,7 @@ afterEach(() => {
 
 describe('A custom matcher `toReceiveHello` derived from toReceiveMessage', () => {
   expect.extend({
-    toReceiveHello: deriveToReceiveMessage('toReceiveHello', function (received) {
+    toReceiveHello: deriveToReceiveMessage('toReceiveHello', (received) => {
       const pass = received === 'Hello';
       const message = pass
         ? () => `Expected the next received message is not Hello, but got ${received}`
@@ -38,13 +38,13 @@ describe('A custom matcher `toReceiveHello` derived from toReceiveMessage', () =
 
   it('passes when received "Hello"', async () => {
     client.send('Hello');
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // biome-ignore lint/suspicious/noExplicitAny: test helper casts to access matcher internals
     await (expect(server) as any).toReceiveHello();
   });
 
   it('fails when received "Hi!"', async () => {
     client.send('Hi!');
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // biome-ignore lint/suspicious/noExplicitAny: test helper casts to access matcher internals
     await expect((expect(server) as any).toReceiveHello()).rejects.toThrowErrorMatchingInlineSnapshot(
       '[Error: Expected the next received message is Hello, but got Hi!]'
     );
@@ -52,7 +52,7 @@ describe('A custom matcher `toReceiveHello` derived from toReceiveMessage', () =
 
   it('fails when received "Hello" under .not context', async () => {
     client.send('Hello');
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // biome-ignore lint/suspicious/noExplicitAny: test helper casts to access matcher internals
     await expect((expect(server) as any).not.toReceiveHello()).rejects.toThrowErrorMatchingInlineSnapshot(
       '[Error: Expected the next received message is not Hello, but got Hello]'
     );
@@ -60,7 +60,7 @@ describe('A custom matcher `toReceiveHello` derived from toReceiveMessage', () =
 
   it('passes when received "Hi!" under .not context', async () => {
     client.send('Hi!');
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // biome-ignore lint/suspicious/noExplicitAny: test helper casts to access matcher internals
     await (expect(server) as any).not.toReceiveHello();
   });
 });

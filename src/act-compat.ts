@@ -16,7 +16,6 @@ type SyncAct = (callback: Callback) => void;
 let act: AsyncAct | SyncAct;
 
 try {
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
   act = require('@testing-library/react').act;
 } catch (_) {
   act = (callback: () => void) => {

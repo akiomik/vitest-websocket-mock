@@ -21,7 +21,7 @@ afterEach(() => {
 
 describe('A custom matcher `toHaveHello` derived from toHaveReceivedMessages', () => {
   expect.extend({
-    toHaveHello: deriveToHaveReceivedMessage('toHaveHello', function (received) {
+    toHaveHello: deriveToHaveReceivedMessage('toHaveHello', (received) => {
       const pass = received.includes('Hello');
       const message = pass
         ? () => `Expected the WS server to not have received Hello, but got ${received}`
@@ -41,7 +41,7 @@ describe('A custom matcher `toHaveHello` derived from toHaveReceivedMessages', (
     client.send('Hello');
     await server.nextMessage;
     await server.nextMessage;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // biome-ignore lint/suspicious/noExplicitAny: test helper casts to access matcher internals
     (expect(server) as any).toHaveHello();
   });
 
@@ -51,7 +51,7 @@ describe('A custom matcher `toHaveHello` derived from toHaveReceivedMessages', (
     await server.nextMessage;
     await server.nextMessage;
     expect(() => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // biome-ignore lint/suspicious/noExplicitAny: test helper casts to access matcher internals
       (expect(server) as any).toHaveHello();
     }).toThrowErrorMatchingInlineSnapshot('[Error: Expected the WS server to have received Hello, but got Hi!,Yo]');
   });
@@ -62,7 +62,7 @@ describe('A custom matcher `toHaveHello` derived from toHaveReceivedMessages', (
     await server.nextMessage;
     await server.nextMessage;
     expect(() => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // biome-ignore lint/suspicious/noExplicitAny: test helper casts to access matcher internals
       (expect(server) as any).not.toHaveHello();
     }).toThrowErrorMatchingInlineSnapshot('[Error: Expected the WS server to not have received Hello, but got Hi!,Hello]');
   });
@@ -72,7 +72,7 @@ describe('A custom matcher `toHaveHello` derived from toHaveReceivedMessages', (
     client.send('Yo');
     await server.nextMessage;
     await server.nextMessage;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // biome-ignore lint/suspicious/noExplicitAny: test helper casts to access matcher internals
     (expect(server) as any).not.toHaveHello();
   });
 });
