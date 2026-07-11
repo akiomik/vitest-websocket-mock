@@ -9,10 +9,9 @@ import type { CustomMatchers } from './matchers';
 import * as matchers from './matchers';
 
 declare module '@vitest/expect' {
-  // eslint-disable-next-line @typescript-eslint/no-empty-interface, @typescript-eslint/no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: matches vitest's own Assertion<T = any> signature
   interface Assertion<T = any> extends CustomMatchers<T> {}
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-interface
   interface AsymmetricMatchersContaining extends CustomMatchers {}
 }
 

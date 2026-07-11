@@ -281,7 +281,7 @@ describe('The WS helper', () => {
     const client = new WebSocket('ws://localhost:1234');
     await server.connected;
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // biome-ignore lint/suspicious/noExplicitAny: test helper casts to access matcher internals
     let error: any; // bad types in MockSockets
     let disconnected = false;
     client.onclose = () => {

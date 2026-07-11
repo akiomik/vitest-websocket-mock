@@ -5,7 +5,7 @@
 
 import type { MatcherState } from '@vitest/expect';
 
-import WS from '../websocket';
+import type WS from '../websocket';
 
 export default function makeInvalidWsMessage(this: MatcherState, ws: WS, matcher: string) {
   return (

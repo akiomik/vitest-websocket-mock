@@ -5,7 +5,7 @@
 
 import deriveToHaveReceivedMessage from './deriveToHaveReceivedMessage';
 import deriveToReceiveMessage from './deriveToReceiveMessage';
-import { ReceiveMessageOptions } from './types';
+import type { ReceiveMessageOptions } from './types';
 
 export type { ReceiveMessageOptions };
 export { deriveToHaveReceivedMessage, deriveToReceiveMessage };

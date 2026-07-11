@@ -3,7 +3,7 @@
  * @copyright Akiomi Kamakura 2023
  */
 
-import { Client, CloseOptions, Server, ServerOptions } from 'mock-socket';
+import { type Client, type CloseOptions, Server, type ServerOptions } from 'mock-socket';
 
 import act from './act-compat';
 import Queue from './queue';
