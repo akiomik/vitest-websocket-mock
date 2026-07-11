@@ -32,21 +32,21 @@ export const actions: { [actionName: string]: ActionFunctionAny<Action<unknown>>
   CONNECTION_LOST: (): Connection => ({ connected: false }),
 });
 
-const reducer = handleActions(
+const reducer = handleActions<State, Message | Connection>(
   {
-    [combineActions(actions.storeReceivedMessage, actions.storeSentMessage)]: (
+    [combineActions(actions.storeReceivedMessage, actions.storeSentMessage) as unknown as string]: (
       state: State,
-      { payload }: { payload: Message }
+      { payload }: { payload: Message | Connection }
     ) => ({
       ...state,
-      messages: [...state.messages, payload],
+      messages: [...state.messages, payload as Message],
     }),
-    [combineActions(actions.connectionSuccess, actions.connectionLost)]: (
+    [combineActions(actions.connectionSuccess, actions.connectionLost) as unknown as string]: (
       state: State,
-      { payload: { connected } }: { payload: Connection }
+      { payload }: { payload: Message | Connection }
     ) => ({
       ...state,
-      connected,
+      connected: (payload as Connection).connected,
     }),
   },
   defaultState
