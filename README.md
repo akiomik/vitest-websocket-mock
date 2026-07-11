@@ -177,7 +177,7 @@ This can be used to test behaviour for a client that connects to a WebSocket ser
 ```js
 test('rejects connections that fail the verifyClient option', async () => {
   new WS('ws://localhost:1234', { verifyClient: () => false });
-  const errorCallback = vitest.fn();
+  const errorCallback = vi.fn();
 
   await expect(
     new Promise((resolve, reject) => {
@@ -200,7 +200,7 @@ This can be used to test behaviour for a client that connects to a WebSocket ser
 test('rejects connections that fail the selectProtocol option', async () => {
   const selectProtocol = () => null;
   new WS('ws://localhost:1234', { selectProtocol });
-  const errorCallback = vitest.fn();
+  const errorCallback = vi.fn();
 
   await expect(
     new Promise((resolve, reject) => {
@@ -256,7 +256,7 @@ it('the server can refuse connections', async () => {
   });
 
   const client = new WebSocket('ws://localhost:1234');
-  client.onclose = (event: CloseEvent) => {
+  client.onclose = (event) => {
     expect(event.code).toBe(1003);
     expect(event.wasClean).toBe(false);
     expect(event.reason).toBe('NOPE');
@@ -292,7 +292,7 @@ afterEach(() => {
 
 `mock-socket` has a strong usage of delays (`setTimeout` to be more specific). This means using `vi.useFakeTimers();` will cause issues such as the client appearing to never connect to the server.
 
-While running the websocket server from tests within the vitest-dom environment (as opposed to node)
+While running the websocket server from tests within the jsdom environment (as opposed to node)
 you may see errors of the nature:
 
 ```bash
@@ -306,7 +306,7 @@ adding `require('setimmediate');` to your `setupTests.js`.
 ## Testing React applications
 
 When testing React applications, `vitest-websocket-mock` will look for
-`@testing-library/react`'s implementation of [`act`](https://reactjs.org/docs/test-utils.html#act).
+`@testing-library/react`'s implementation of [`act`](https://react.dev/reference/react/act).
 If it is available, it will wrap all the necessary calls in `act`, so you don't have to.
 
 If `@testing-library/react` is not available, we will assume that you're not testing a React application,
