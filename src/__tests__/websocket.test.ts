@@ -281,8 +281,8 @@ describe('The WS helper', () => {
     const client = new WebSocket('ws://localhost:1234');
     await server.connected;
 
-    // biome-ignore lint/suspicious/noExplicitAny: test helper casts to access matcher internals
-    let error: any; // bad types in MockSockets
+    // biome-ignore lint/suspicious/noExplicitAny: mock-socket types onerror's event as Event, which lacks the origin/type fields present at runtime
+    let error: any;
     let disconnected = false;
     client.onclose = () => {
       disconnected = true;
