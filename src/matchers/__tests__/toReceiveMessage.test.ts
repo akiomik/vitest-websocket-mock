@@ -100,25 +100,25 @@ describe('.toReceiveMessage', () => {
     expect.hasAssertions();
     client.send(`{"answer":42}`);
     await expect(expect(server).toReceiveMessage({ answer: 42 })).rejects.toThrowErrorMatchingInlineSnapshot(`
-        [Error: [2mexpect([22m[31mWS[39m[2m).toReceiveMessage([22m[32mexpected[39m[2m)[22m
+      [Error: [2mexpect([22m[31mWS[39m[2m).toReceiveMessage([22m[32mexpected[39m[2m)[22m
 
-        Expected the next received message to equal:
-          [32mObject {
-          "answer": 42,
-        }[39m
-        Received:
-          [31m"{"answer":42}"[39m
+      Expected the next received message to equal:
+        [32mObject {
+        "answer": 42,
+      }[39m
+      Received:
+        [31m"{"answer":42}"[39m
 
-        Difference:
+      Difference:
 
-        [32m- Expected:[39m 
-        {
-          "answer": 42,
-        }
+      [32m- Expected:[39m
+      {
+        "answer": 42,
+      }
 
-        [31m+ Received:[39m 
-        "{\\"answer\\":42}"]
-      `);
+      [31m+ Received:[39m
+      "{\\"answer\\":42}"]
+    `);
   });
 });
 
