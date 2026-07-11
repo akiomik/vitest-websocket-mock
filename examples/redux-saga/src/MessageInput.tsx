@@ -25,6 +25,7 @@ class MessageInput extends PureComponent<{ send: ActionFunctionAny<Action<unknow
     return (
       <form className="MessageForm" onSubmit={this.onSubmit}>
         <input
+          // biome-ignore lint/a11y/noAutofocus: intentional for this chat demo's single input field
           autoFocus
           className="MessageInput"
           value={message}

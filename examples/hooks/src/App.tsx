@@ -3,13 +3,14 @@
  * @copyright Akiomi Kamakura 2023
  */
 
-import { ChangeEvent, FormEvent, useEffect, useRef, useState } from 'react';
+import { type ChangeEvent, type FormEvent, useEffect, useRef, useState } from 'react';
 
-type MessageProps = { text: string; side: 'sent' | 'received' };
+type MessageProps = { id: number; text: string; side: 'sent' | 'received' };
 const Message = ({ text, side }: MessageProps) => <div>{`(${side}) ${text}`}</div>;
 
 function App() {
   const wsRef = useRef<WebSocket>();
+  const nextMessageId = useRef(0);
   const [connected, setConnected] = useState(false);
   const [messages, setMessages] = useState<MessageProps[]>([]);
   const [currentMessage, setCurrentMessage] = useState('');
@@ -18,7 +19,7 @@ function App() {
     const ws = new WebSocket(`ws://${window.location.hostname}:8080`);
     ws.onopen = () => setConnected(true);
     ws.onclose = () => setConnected(false);
-    ws.onmessage = (event) => setMessages((m) => [{ side: 'received', text: event.data }, ...m]);
+    ws.onmessage = (event) => setMessages((m) => [{ id: nextMessageId.current++, side: 'received', text: event.data }, ...m]);
     wsRef.current = ws;
   }, []);
 
@@ -32,7 +33,7 @@ function App() {
 
     wsRef.current.send(currentMessage);
     setCurrentMessage('');
-    setMessages((m) => [{ side: 'sent', text: currentMessage }, ...m]);
+    setMessages((m) => [{ id: nextMessageId.current++, side: 'sent', text: currentMessage }, ...m]);
   };
 
   return (
@@ -47,13 +48,14 @@ function App() {
       />
 
       <div className="Messages">
-        {messages.map((message, i) => (
-          <Message key={i} {...message} />
+        {messages.map((message) => (
+          <Message key={message.id} {...message} />
         ))}
       </div>
 
       <form className="MessageForm" onSubmit={send}>
         <input
+          // biome-ignore lint/a11y/noAutofocus: intentional for this chat demo's single input field
           autoFocus
           className="MessageInput"
           value={currentMessage}

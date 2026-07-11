@@ -107,7 +107,9 @@ describe('The saga', () => {
     expect(store.getState().connected).toBe(false);
 
     // Trigger our delayed reconnection
-    spy.mock.calls.forEach(([cb, , ...args]) => cb(...args));
+    spy.mock.calls.forEach(([cb, , ...args]) => {
+      cb(...args);
+    });
 
     await ws.connected; // reconnected!
     expect(store.getState().connected).toBe(true);

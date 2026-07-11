@@ -5,8 +5,7 @@
 import type { Action } from 'redux';
 import type { EventChannel } from 'redux-saga';
 import { END, eventChannel } from 'redux-saga';
-import { call, cancel, delay, fork, put, take } from 'redux-saga/effects';
-import { Effect } from 'redux-saga/effects';
+import { call, cancel, delay, type Effect, fork, put, take } from 'redux-saga/effects';
 
 import { actions } from './reducer';
 
@@ -33,7 +32,7 @@ function websocketInitChannel(connection: WebSocket): EventChannel<Action<unknow
   });
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+// biome-ignore lint/suspicious/noExplicitAny: generator return type follows redux-saga's own typing convention
 function* sendMessage<A>(connection: WebSocket): Generator<Effect, A, any> {
   while (true) {
     const { payload } = yield take(actions.send);
@@ -42,7 +41,7 @@ function* sendMessage<A>(connection: WebSocket): Generator<Effect, A, any> {
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+// biome-ignore lint/suspicious/noExplicitAny: generator return type follows redux-saga's own typing convention
 export default function* saga<A>(): Generator<Effect, A, any> {
   const connection = new WebSocket(`ws://${window.location.hostname}:8080`);
   const channel = yield call(websocketInitChannel, connection);
