@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.7.0] - 2026-07-12
+
 ### Changed
 
 - Matcher error messages no longer embed a manually generated `Difference:` section; Vitest's reporter now renders the diff from the `actual` / `expected` returned by matchers ([#75](https://github.com/akiomik/vitest-websocket-mock/issues/75)).
@@ -30,5 +32,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Update `tsup` and `vite` (dev dependencies) to fix vulnerable dependencies.
 - Update `vite` in examples to fix a vulnerable dependency.
 
-[Unreleased]: https://github.com/akiomik/vitest-websocket-mock/compare/v0.6.0...HEAD
+[Unreleased]: https://github.com/akiomik/vitest-websocket-mock/compare/v0.7.0...HEAD
+[0.7.0]: https://github.com/akiomik/vitest-websocket-mock/releases/tag/v0.7.0
 [0.6.0]: https://github.com/akiomik/vitest-websocket-mock/releases/tag/v0.6.0
