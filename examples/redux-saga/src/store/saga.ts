@@ -32,7 +32,6 @@ function websocketInitChannel(connection: WebSocket): EventChannel<Action<unknow
   });
 }
 
-// biome-ignore lint/suspicious/noExplicitAny: generator return type follows redux-saga's own typing convention
 function* sendMessage<A>(connection: WebSocket): Generator<Effect, A, any> {
   while (true) {
     const { payload } = yield take(actions.send);
@@ -41,7 +40,6 @@ function* sendMessage<A>(connection: WebSocket): Generator<Effect, A, any> {
   }
 }
 
-// biome-ignore lint/suspicious/noExplicitAny: generator return type follows redux-saga's own typing convention
 export default function* saga<A>(): Generator<Effect, A, any> {
   const connection = new WebSocket(`ws://${window.location.hostname}:8080`);
   const channel = yield call(websocketInitChannel, connection);
