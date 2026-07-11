@@ -18,7 +18,7 @@
   "scripts": {
     "clean": "rimraf dist",
     "prebuild": "npm run clean",
-    "build": "tsup",
+    "build": "tsdown",
     "typecheck": "tsc --noEmit",
     "lint": "biome check .",
     "format": "biome check --write .",
@@ -39,8 +39,8 @@
     "@types/node": "^26.1.1",
     "@vitest/coverage-v8": "4.1.1",
     "rimraf": "^4.1.2",
-    "tsup": "^8.5.1",
-    "typescript": "^6.0.3",
+    "tsdown": "^0.22.5",
+    "typescript": "^7.0.2",
     "vite": "^8.1.4",
     "vitest": "4.1.1"
   },
