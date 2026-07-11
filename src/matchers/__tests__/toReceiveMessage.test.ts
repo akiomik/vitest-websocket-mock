@@ -86,6 +86,20 @@ describe('.toReceiveMessage', () => {
     `);
   });
 
+  it('replaces trailing spaces with middle dots in the failure message', async () => {
+    expect.hasAssertions();
+    client.send('hello \nthere  ');
+    await expect(expect(server).toReceiveMessage('HI!')).rejects.toThrowErrorMatchingInlineSnapshot(`
+      [Error: expect(WS).toReceiveMessage(expected)
+
+      Expected the next received message to equal:
+        "HI!"
+      Received:
+        "hello·
+      there  "]
+    `);
+  });
+
   // TODO: Fix Object indentation
   it('fails when expecting a JSON message but the server is not configured for JSON protocols', async () => {
     expect.hasAssertions();

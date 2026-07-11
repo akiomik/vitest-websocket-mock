@@ -70,9 +70,7 @@ describe('.toHaveReceivedMessages', () => {
         "hello there",
         "how are you?",
         "good?",
-      ]
-
-      ]
+      ]]
     `);
   });
 

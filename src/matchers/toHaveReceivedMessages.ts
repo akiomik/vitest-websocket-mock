@@ -6,7 +6,7 @@
 import type { ExpectationResult } from '@vitest/expect';
 
 import { deriveToHaveReceivedMessage } from '../derivers';
-import matcherHint from '../matcherHint';
+import { formatComparison, matcherHint } from '../matcherUtils';
 import type { DeserializedMessage } from '../websocket';
 
 const toHaveReceivedMessages = deriveToHaveReceivedMessage(
@@ -20,22 +20,23 @@ const toHaveReceivedMessages = deriveToHaveReceivedMessage(
 
     const message = pass
       ? () =>
-          matcherHint('.not.toHaveReceivedMessages') +
-          '\n\n' +
-          `Expected the WS server to not have received the following messages:\n` +
-          `  ${this.utils.stringify(expected)}\n` +
-          `But it received:\n` +
-          `  ${this.utils.stringify(received)}`
-      : () => {
-          return (
-            matcherHint('.toHaveReceivedMessages') +
-            '\n\n' +
-            `Expected the WS server to have received the following messages:\n` +
-            `  ${this.utils.stringify(expected)}\n` +
-            `Received:\n` +
-            `  ${this.utils.stringify(received)}\n\n`
+          formatComparison.call(
+            this,
+            matcherHint('toHaveReceivedMessages', true),
+            'Expected the WS server to not have received the following messages:',
+            expected,
+            'But it received:',
+            received
+          )
+      : () =>
+          formatComparison.call(
+            this,
+            matcherHint('toHaveReceivedMessages'),
+            'Expected the WS server to have received the following messages:',
+            expected,
+            'Received:',
+            received
           );
-        };
 
     return {
       actual: received,

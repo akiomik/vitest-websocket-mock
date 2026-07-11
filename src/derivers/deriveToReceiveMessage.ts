@@ -5,7 +5,7 @@
 
 import type { AsyncExpectationResult, RawMatcherFn } from '@vitest/expect';
 
-import matcherHint from '../matcherHint';
+import { matcherHint } from '../matcherUtils';
 import type { DeserializedMessage } from '../websocket';
 import WS from '../websocket';
 import makeInvalidWsMessage from './makeInvalidWsMessage';
@@ -35,7 +35,7 @@ export default function deriveToReceiveMessage(name: string, fn: RawMatcherFn): 
       return {
         pass: this.isNot, // always fail
         message: () =>
-          matcherHint(`${this.isNot ? '.not' : ''}.${name}`) +
+          matcherHint(name, this.isNot) +
           '\n\n' +
           `Expected the websocket server to receive a message,\n` +
           `but it didn't receive anything in ${waitDelay}ms.`,
