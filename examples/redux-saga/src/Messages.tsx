@@ -12,6 +12,7 @@ const Message = ({ text, side }: MessageT) => <div>{`(${side}) ${text}`}</div>;
 const Messages = ({ messages }: { messages: MessageT[] }) => (
   <div className="Messages">
     {messages.map((message, i) => (
+      // biome-ignore lint/suspicious/noArrayIndexKey: messages array only ever grows via append, so index is a stable identity
       <Message key={i} {...message} />
     ))}
   </div>

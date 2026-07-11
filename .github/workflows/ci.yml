@@ -30,12 +30,14 @@ jobs:
         run: |
           cd examples/redux-saga
           npm install
+          npm run lint
           npm test -- --coverage
           npm run build
       - name: test examples/hooks
         run: |
           cd examples/hooks
           npm install
+          npm run lint
           npm test -- --coverage
           npm run build
 
