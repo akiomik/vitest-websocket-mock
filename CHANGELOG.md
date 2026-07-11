@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Matcher error messages no longer embed a manually generated `Difference:` section; Vitest's reporter now renders the diff from the `actual` / `expected` returned by matchers ([#75](https://github.com/akiomik/vitest-websocket-mock/issues/75)).
+- Matcher error messages are now built as plain text without ANSI color codes, so color detection (e.g. AI-agent environments) can no longer make them differ between environments ([#76](https://github.com/akiomik/vitest-websocket-mock/issues/76)). Note that the value formatting inside messages still comes from Vitest's `stringify` and may change across Vitest versions. If you snapshot these messages in your own tests, you will need to update those snapshots.
+- Remove the `@vitest/utils` runtime dependency.
+- Unpin `vitest` and `@vitest/coverage-v8` from `4.1.1` (dev dependencies), which were pinned to avoid the local/CI snapshot divergence under AI coding agents ([#59](https://github.com/akiomik/vitest-websocket-mock/issues/59)).
+
 ## [0.6.0] - 2026-07-12
 
 ### Changed

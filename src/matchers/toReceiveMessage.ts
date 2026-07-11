@@ -4,33 +4,32 @@
  */
 
 import type { ExpectationResult } from '@vitest/expect';
-import { diff } from '@vitest/utils/diff';
 
 import { deriveToReceiveMessage } from '../derivers';
+import { formatComparison, matcherHint } from '../matcherUtils';
 
 const toReceiveMessage = deriveToReceiveMessage('toReceiveMessage', function (received, expected): ExpectationResult {
   const pass = this.equals(received, expected);
 
   const message = pass
     ? () =>
-        this.utils.matcherHint('.not.toReceiveMessage', 'WS', 'expected') +
-        '\n\n' +
-        `Expected the next received message to not equal:\n` +
-        `  ${this.utils.printExpected(expected)}\n` +
-        `Received:\n` +
-        `  ${this.utils.printReceived(received)}`
-    : () => {
-        const diffString = diff(expected, received, { expand: this.expand });
-        return (
-          this.utils.matcherHint('.toReceiveMessage', 'WS', 'expected') +
-          '\n\n' +
-          `Expected the next received message to equal:\n` +
-          `  ${this.utils.printExpected(expected)}\n` +
-          `Received:\n` +
-          `  ${this.utils.printReceived(received)}\n\n` +
-          `Difference:\n\n${diffString}`
+        formatComparison.call(
+          this,
+          matcherHint('toReceiveMessage', true),
+          'Expected the next received message to not equal:',
+          expected,
+          'Received:',
+          received
+        )
+    : () =>
+        formatComparison.call(
+          this,
+          matcherHint('toReceiveMessage'),
+          'Expected the next received message to equal:',
+          expected,
+          'Received:',
+          received
         );
-      };
 
   return {
     actual: received,
