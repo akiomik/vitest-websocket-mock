@@ -5,7 +5,6 @@
 
 import '../../extend-expect';
 
-import c from 'tinyrainbow';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 
 import WS from '../../websocket';
@@ -83,15 +82,7 @@ describe('.toReceiveMessage', () => {
       Expected the next received message to equal:
         [32m"HI!"[39m
       Received:
-        [31m"hello there"[39m
-
-      Difference:
-
-      ${c.green('- Expected')}
-      ${c.red('+ Received')}
-
-      ${c.green('- HI!')}
-      ${c.red('+ hello there')}]
+        [31m"hello there"[39m]
     `);
   });
 
@@ -107,17 +98,7 @@ describe('.toReceiveMessage', () => {
         "answer": 42,
       }[39m
       Received:
-        [31m"{"answer":42}"[39m
-
-      Difference:
-
-      [32m- Expected:[39m
-      {
-        "answer": 42,
-      }
-
-      [31m+ Received:[39m
-      "{\\"answer\\":42}"]
+        [31m"{"answer":42}"[39m]
     `);
   });
 });

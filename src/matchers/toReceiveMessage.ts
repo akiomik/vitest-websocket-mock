@@ -4,7 +4,6 @@
  */
 
 import type { ExpectationResult } from '@vitest/expect';
-import { diff } from '@vitest/utils/diff';
 
 import { deriveToReceiveMessage } from '../derivers';
 
@@ -19,18 +18,13 @@ const toReceiveMessage = deriveToReceiveMessage('toReceiveMessage', function (re
         `  ${this.utils.printExpected(expected)}\n` +
         `Received:\n` +
         `  ${this.utils.printReceived(received)}`
-    : () => {
-        const diffString = diff(expected, received, { expand: this.expand });
-        return (
-          this.utils.matcherHint('.toReceiveMessage', 'WS', 'expected') +
-          '\n\n' +
-          `Expected the next received message to equal:\n` +
-          `  ${this.utils.printExpected(expected)}\n` +
-          `Received:\n` +
-          `  ${this.utils.printReceived(received)}\n\n` +
-          `Difference:\n\n${diffString}`
-        );
-      };
+    : () =>
+        this.utils.matcherHint('.toReceiveMessage', 'WS', 'expected') +
+        '\n\n' +
+        `Expected the next received message to equal:\n` +
+        `  ${this.utils.printExpected(expected)}\n` +
+        `Received:\n` +
+        `  ${this.utils.printReceived(received)}`;
 
   return {
     actual: received,
