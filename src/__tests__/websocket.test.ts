@@ -23,6 +23,14 @@ describe('The WS helper', () => {
     expect(server.messages).toEqual(['hello']);
   });
 
+  it('synchronously exposes an empty messages array when no message has been received', async () => {
+    const server = new WS('ws://localhost:1234');
+    new WebSocket('ws://localhost:1234');
+
+    await server.connected;
+    expect(server.messages).toEqual([]);
+  });
+
   it("cleans up connected clients and messages on 'clean'", async () => {
     const server = new WS('ws://localhost:1234');
     const client1 = new WebSocket('ws://localhost:1234');

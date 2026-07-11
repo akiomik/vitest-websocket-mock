@@ -80,6 +80,11 @@ A `WS` instance has the following attributes:
   new message. The resolved value is the received message (deserialized as a
   JavaScript Object if the `WS` was instantiated with the `{ jsonProtocol: true }`
   option).
+- `messages`: an array that synchronously and cumulatively records every
+  message received by the `WS` instance, in the order they were received.
+  Since it's updated synchronously, it can be used to assert that no message
+  has been received without waiting on a timeout (see
+  [Run assertions on received messages](#run-assertions-on-received-messages)).
 
 ### Methods on a `WS` instance
 
@@ -102,6 +107,12 @@ on received messages easier:
 - `.toHaveReceivedMessages`: synchronous matcher that checks that all the
   expected messages have been received by the mock websocket server.
 
+**Note**: `.toHaveReceivedMessages([])` always passes, since it only checks
+that every expected message is included in the received messages, and an
+empty list of expected messages is trivially satisfied. To assert that _no_
+message has been received, check `server.messages` directly instead (see
+below).
+
 ### Run assertions on messages as they are received by the mock server
 
 ```js
@@ -113,6 +124,21 @@ test('the server keeps track of received messages, and yields them as they come 
   client.send('hello');
   await expect(server).toReceiveMessage('hello');
   expect(server).toHaveReceivedMessages(['hello']);
+});
+```
+
+### Assert that a message has not been received
+
+`server.messages` is updated synchronously, so it can be checked immediately
+without waiting for a timeout:
+
+```js
+test('asserts that no message has been received', async () => {
+  const server = new WS('ws://localhost:1234');
+  const client = new WebSocket('ws://localhost:1234');
+
+  await server.connected;
+  expect(server.messages).toEqual([]);
 });
 ```
 
