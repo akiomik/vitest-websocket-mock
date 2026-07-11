@@ -14,10 +14,10 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.4.3",
-    "@vitejs/plugin-react": "^4.2.1",
+    "@vitejs/plugin-react": "^6.0.3",
     "jsdom": "^22.1.0",
     "typescript": "^5.0.2",
-    "vite": "^5.0.6",
+    "vite": "^8.1.4",
     "vitest": "4.1.1"
   },
   "scripts": {
