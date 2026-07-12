@@ -1,11 +1,15 @@
-# Vitest websocket mock
+# vitest-websocket-mock
 
 [![npm version](https://badge.fury.io/js/vitest-websocket-mock.svg)](https://badge.fury.io/js/vitest-websocket-mock)
 [![Build Status](https://github.com/akiomik/vitest-websocket-mock/actions/workflows/ci.yml/badge.svg)](https://github.com/akiomik/vitest-websocket-mock/actions)
 [![codecov](https://codecov.io/gh/akiomik/vitest-websocket-mock/branch/main/graph/badge.svg?token=40OVYIT90L)](https://codecov.io/gh/akiomik/vitest-websocket-mock)
 
-A set of utilities and Vitest matchers to help testing complex websocket interactions.
-A patched fork of [romgain/jest-websocket-mock](https://github.com/romgain/jest-websocket-mock).
+A set of utilities and Vitest matchers to help testing complex websocket interactions:
+mock websocket servers, wait for connections and messages, and assert on them
+with dedicated matchers.
+
+Originally forked from [romgain/jest-websocket-mock](https://github.com/romgain/jest-websocket-mock),
+and since developed independently as a Vitest-first library.
 
 **Examples:**
 Several examples are provided in the [examples folder](https://github.com/akiomik/vitest-websocket-mock/blob/main/examples/).
@@ -15,7 +19,30 @@ In particular:
 - [testing a component using the saga above](https://github.com/akiomik/vitest-websocket-mock/blob/main/examples/redux-saga/src/__tests__/App.test.tsx)
 - [testing a component that manages a websocket connection using react hooks](https://github.com/akiomik/vitest-websocket-mock/blob/main/examples/hooks/src/App.test.tsx)
 
+## When to use this vs. MSW
+
+[Vitest recommends](https://vitest.dev/guide/mocking/requests) [Mock Service Worker (MSW)](https://mswjs.io)
+for mocking network requests, and MSW has first-class
+[WebSocket support](https://mswjs.io/docs/websocket/). The two address different
+layers of the problem:
+
+- **MSW** provides declarative, network-level mocking (`ws.link()` handlers).
+  It shines when you want to share handlers between your app, Storybook, and
+  tests, or when you also need to mock HTTP or GraphQL.
+- **`vitest-websocket-mock`** provides imperative test-flow ergonomics that MSW
+  does not: a `WS` mock-server object, `await server.connected`, a synchronous
+  record of received messages in `server.messages`, and custom matchers such as
+  `.toReceiveMessage` and `.toHaveReceivedMessages`.
+
+If your test reads best as a step-by-step conversation with a mock server
+("wait for the connection, assert on the next message, reply, assert again"),
+this library is the better fit. Running this library on top of MSW's
+interceptor, which would make the two complementary rather than alternatives,
+is being explored in [#77](https://github.com/akiomik/vitest-websocket-mock/issues/77).
+
 ## Install
+
+`vitest-websocket-mock` requires Vitest as a peer dependency.
 
 ```bash
 npm install -D vitest-websocket-mock
@@ -65,7 +92,7 @@ const server = new WS('ws://localhost:1234', { jsonProtocol: true });
 server.send({ type: 'GREETING', payload: 'hello' });
 ```
 
-- The `mock-server` options `verifyClient` and `selectProtocol` are directly passed-through to the mock-server's constructor.
+- The [`mock-socket`](https://github.com/thoov/mock-socket) server options `verifyClient` and `selectProtocol` are directly passed through to the underlying mock server's constructor.
 
 ### Attributes of a `WS` instance
 
@@ -98,8 +125,9 @@ A `WS` instance has the following attributes:
 
 ## Run assertions on received messages
 
-`vitest-websocket-mock` registers custom vitest matchers to make assertions
-on received messages easier:
+`vitest-websocket-mock` registers custom Vitest matchers to make assertions
+on received messages easier. They are registered automatically when
+`vitest-websocket-mock` is imported, so no extra setup file is needed:
 
 - `.toReceiveMessage`: async matcher that waits for the next message received
   by the mock websocket server, and asserts its content. It will time out
@@ -377,9 +405,3 @@ the `mock-socket` library that `vitest-websocket-mock` uses under the hood only
 implements the browser API.
 As a result, `vitest-websocket-mock` will only work with the `ws` library if you
 restrict yourself to the browser APIs!
-
-## Examples
-
-For a real life example, see the
-[examples directory](https://github.com/akiomik/vitest-websocket-mock/tree/main/examples),
-and in particular the saga tests.
