@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Breaking:** Vitest 5 or later is now required (`peerDependencies` moved from `>=4` to `>=5`). Vitest 5 no longer depends on `@vitest/expect`, which the custom matcher types used to be declared against, so augmenting that module no longer reaches Vitest's assertions. The augmentation now targets `vitest` itself, and because Vitest 4 and 5 declare `Matchers` with different type parameters, a single build cannot type-check against both.
 - The matcher types are now declared via `declare module 'vitest'` and imported from `vitest` instead of `@vitest/expect`.
 
+### Added
+
+- A troubleshooting section in the README for the case where TypeScript does not recognize the custom matchers because the project resolves two different copies of `vitest`. A module augmentation only merges into the file it resolves to, so a duplicate copy silently receives nothing.
+
 ## [0.7.0] - 2026-07-12
 
 ### Changed

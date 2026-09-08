@@ -357,6 +357,32 @@ You can work around this by installing the setImmediate shim from
 [https://github.com/YuzuJS/setImmediate](https://github.com/YuzuJS/setImmediate) and
 adding `require('setimmediate');` to your `setupTests.js`.
 
+### The custom matchers are not recognized by TypeScript
+
+If TypeScript reports
+
+```
+Property 'toReceiveMessage' does not exist on type 'Assertion<void, WS>'.
+```
+
+then your project resolves two different copies of `vitest`. The matcher types
+are contributed with `declare module 'vitest'`, and a module augmentation only
+merges into the exact file it resolves to, so a second copy silently receives
+nothing. This usually happens in a monorepo where a nested package pins its own
+`vitest`, or when `vitest-websocket-mock` is linked with `file:` / `link:` and
+TypeScript follows the symlink back to a tree with its own `vitest`.
+
+Deduplicating `vitest` fixes it — `npm dedupe`, a workspace-wide version, or a
+package manager override. If you cannot, pin the specifier in `tsconfig.json`:
+
+```json
+{
+  "compilerOptions": {
+    "paths": { "vitest": ["./node_modules/vitest"] }
+  }
+}
+```
+
 ## Testing React applications
 
 When testing React applications, `vitest-websocket-mock` will look for
