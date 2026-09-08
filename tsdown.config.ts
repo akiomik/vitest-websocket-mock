@@ -8,6 +8,6 @@ export default defineConfig({
   sourcemap: false,
   outExtensions: () => ({ js: '.js', dts: '.d.ts' }),
   deps: {
-    neverBundle: ['@vitest/expect', '@vitest/runner', '@vitest/utils'],
+    neverBundle: ['vitest'],
   },
 });
