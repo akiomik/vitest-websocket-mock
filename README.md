@@ -366,8 +366,8 @@ Property 'toReceiveMessage' does not exist on type 'Assertion<void, WS>'.
 The matchers are contributed with [module augmentation][augmentation], which
 only merges into the copy of `vitest` the augmentation resolves to. If your
 project has more than one — a monorepo with a nested pin, or a `file:` / `link:`
-install — deduplicate `vitest`, or map the specifier to the copy your tests run
-against:
+install — deduplicate `vitest`. To silence the types without deduplicating, map
+the specifier to the copy your tests run against:
 
 ```json
 { "compilerOptions": { "paths": { "vitest": ["./node_modules/vitest"] } } }
