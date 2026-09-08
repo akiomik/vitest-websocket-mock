@@ -45,7 +45,7 @@
     "vitest": "^5.0.0"
   },
   "peerDependencies": {
-    "vitest": ">=5"
+    "vitest": ">=5 <6"
   },
   "dependencies": {
     "mock-socket": "^9.2.1"

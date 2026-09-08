@@ -42,7 +42,7 @@ is being explored in [#77](https://github.com/akiomik/vitest-websocket-mock/issu
 
 ## Install
 
-`vitest-websocket-mock` requires Vitest 5 or later as a peer dependency.
+`vitest-websocket-mock` requires Vitest 5 as a peer dependency.
 
 ```bash
 npm install -D vitest-websocket-mock
@@ -382,6 +382,12 @@ package manager override. If you cannot, pin the specifier in `tsconfig.json`:
   }
 }
 ```
+
+The path has to point at the copy your tests actually run against. In a
+monorepo where `vitest` is hoisted to the workspace root, `./node_modules/vitest`
+does not exist, the mapping is skipped, and you get the same error with no hint
+that the workaround did nothing — use `../../node_modules/vitest`, or whatever
+`npm ls vitest` reports, instead.
 
 ## Testing React applications
 
