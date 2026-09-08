@@ -16,15 +16,16 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^2.5.3",
-    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.4.3",
     "@types/redux-actions": "^2.6.2",
     "@vitejs/plugin-react": "^6.0.3",
+    "@vitest/coverage-v8": "^5.0.0",
     "jsdom": "^22.1.0",
     "typescript": "^5.0.2",
     "vite": "^8.1.4",
-    "vitest": "4.1.1"
+    "vitest": "^5.0.0"
   },
   "scripts": {
     "dev": "vite",

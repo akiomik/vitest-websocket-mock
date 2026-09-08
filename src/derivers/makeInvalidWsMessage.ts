@@ -3,7 +3,7 @@
  * @copyright Akiomi Kamakura 2023
  */
 
-import type { MatcherState } from '@vitest/expect';
+import type { MatcherState } from 'vitest';
 
 import { matcherHint, printValue } from '../matcherUtils';
 import type WS from '../websocket';

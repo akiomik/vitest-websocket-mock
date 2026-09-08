@@ -3,14 +3,14 @@
  * @copyright Akiomi Kamakura 2023
  */
 
-import type { ExpectationResult, RawMatcherFn } from '@vitest/expect';
+import type { Matcher, MatcherResult } from 'vitest';
 
 import type { DeserializedMessage } from '../websocket';
 import WS from '../websocket';
 import makeInvalidWsMessage from './makeInvalidWsMessage';
 
-export default function deriveToHaveReceivedMessage(name: string, fn: RawMatcherFn): RawMatcherFn {
-  return function (ws: WS, expected: Array<DeserializedMessage>, options?: unknown): ExpectationResult {
+export default function deriveToHaveReceivedMessage(name: string, fn: Matcher): Matcher {
+  return function (ws: WS, expected: Array<DeserializedMessage>, options?: unknown): MatcherResult {
     const isWS = ws instanceof WS;
     if (!isWS) {
       return {

@@ -8,11 +8,10 @@ import { expect } from 'vitest';
 import type { CustomMatchers } from './matchers';
 import * as matchers from './matchers';
 
-declare module '@vitest/expect' {
-  // biome-ignore lint/suspicious/noExplicitAny: matches vitest's own Assertion<T = any> signature
-  interface Assertion<T = any> extends CustomMatchers<T> {}
-
-  interface AsymmetricMatchersContaining extends CustomMatchers {}
+declare module 'vitest' {
+  // Type parameters must match vitest's own `Matchers` declaration exactly, or
+  // TypeScript refuses to merge the augmentation (TS2428).
+  interface Matchers<R extends void | Promise<void> = void | Promise<void>, T = unknown> extends CustomMatchers<R> {}
 }
 
 expect.extend(matchers);

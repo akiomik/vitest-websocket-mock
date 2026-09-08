@@ -42,7 +42,7 @@ is being explored in [#77](https://github.com/akiomik/vitest-websocket-mock/issu
 
 ## Install
 
-`vitest-websocket-mock` requires Vitest as a peer dependency.
+`vitest-websocket-mock` requires Vitest 5 or later as a peer dependency.
 
 ```bash
 npm install -D vitest-websocket-mock
