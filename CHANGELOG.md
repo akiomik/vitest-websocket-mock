@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- **Breaking:** Vitest 5 or later is now required (`peerDependencies` moved from `>=4` to `>=5`). Vitest 5 dropped the `@vitest/expect` package that the custom matcher types were declared against, and its `Matchers` interface takes different type parameters, so a single build cannot type-check against both Vitest 4 and 5.
+- **Breaking:** Vitest 5 or later is now required (`peerDependencies` moved from `>=4` to `>=5`). Vitest 5 no longer depends on `@vitest/expect`, which the custom matcher types used to be declared against, so augmenting that module no longer reaches Vitest's assertions. The augmentation now targets `vitest` itself, and because Vitest 4 and 5 declare `Matchers` with different type parameters, a single build cannot type-check against both.
 - The matcher types are now declared via `declare module 'vitest'` and imported from `vitest` instead of `@vitest/expect`.
 
 ## [0.7.0] - 2026-07-12
