@@ -5,6 +5,13 @@ updates:
     schedule:
       interval: daily
     open-pull-requests-limit: 10
+    groups:
+      # `@vitest/coverage-v8` pins `vitest` with an exact peer dependency, so a
+      # PR that bumps only one of them can never install. Keep them together.
+      vitest:
+        patterns:
+          - 'vitest'
+          - '@vitest/*'
   - package-ecosystem: github-actions
     directory: '/'
     schedule:
