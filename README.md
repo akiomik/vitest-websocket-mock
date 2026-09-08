@@ -359,35 +359,21 @@ adding `require('setimmediate');` to your `setupTests.js`.
 
 ### The custom matchers are not recognized by TypeScript
 
-If TypeScript reports
-
 ```
 Property 'toReceiveMessage' does not exist on type 'Assertion<void, WS>'.
 ```
 
-then your project resolves two different copies of `vitest`. The matcher types
-are contributed with `declare module 'vitest'`, and a module augmentation only
-merges into the exact file it resolves to, so a second copy silently receives
-nothing. This usually happens in a monorepo where a nested package pins its own
-`vitest`, or when `vitest-websocket-mock` is linked with `file:` / `link:` and
-TypeScript follows the symlink back to a tree with its own `vitest`.
-
-Deduplicating `vitest` fixes it — `npm dedupe`, a workspace-wide version, or a
-package manager override. If you cannot, pin the specifier in `tsconfig.json`:
+The matchers are contributed with [module augmentation][augmentation], which
+only merges into the copy of `vitest` the augmentation resolves to. If your
+project has more than one — a monorepo with a nested pin, or a `file:` / `link:`
+install — deduplicate `vitest`, or map the specifier to the copy your tests run
+against:
 
 ```json
-{
-  "compilerOptions": {
-    "paths": { "vitest": ["./node_modules/vitest"] }
-  }
-}
+{ "compilerOptions": { "paths": { "vitest": ["./node_modules/vitest"] } } }
 ```
 
-The path has to point at the copy your tests actually run against. In a
-monorepo where `vitest` is hoisted to the workspace root, `./node_modules/vitest`
-does not exist, the mapping is skipped, and you get the same error with no hint
-that the workaround did nothing — use `../../node_modules/vitest`, or whatever
-`npm ls vitest` reports, instead.
+[augmentation]: https://www.typescriptlang.org/docs/handbook/declaration-merging.html#module-augmentation
 
 ## Testing React applications
 

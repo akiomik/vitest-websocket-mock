@@ -9,12 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- **Breaking:** Vitest 5 is now required (`peerDependencies` moved from `>=4` to `>=5 <6`). Vitest 5 no longer depends on `@vitest/expect`, which the custom matcher types used to be declared against, so augmenting that module no longer reaches Vitest's assertions. The augmentation now targets `vitest` itself, and because Vitest 4 and 5 declare `Matchers` with different type parameters, a single build cannot type-check against both. The range is deliberately bounded: the augmentation has to repeat Vitest's `Matchers` type parameters verbatim, so a future major that changes them breaks the merge. Projects that type-check declaration files (`skipLibCheck: false`) get a TS2428 pointing inside `node_modules`, which is hard to trace back to a version mismatch; the rest compile only because TypeScript still merges the members despite the error, which is not a contract worth relying on. An install-time peer warning is a better signal than either.
-- The matcher types are now declared via `declare module 'vitest'` and imported from `vitest` instead of `@vitest/expect`.
-
-### Added
-
-- A troubleshooting section in the README for the case where TypeScript does not recognize the custom matchers because the project resolves two different copies of `vitest`. A module augmentation only merges into the file it resolves to, so a duplicate copy silently receives nothing.
+- **Breaking:** Vitest 5 is now required (`peerDependencies`: `>=4` to `>=5 <6`). The matcher types are now declared against `vitest` instead of `@vitest/expect`, which Vitest 5 no longer depends on. Vitest 4 and 5 declare `Matchers` with different type parameters, so one build cannot support both.
+- `toReceiveMessage` is now typed as returning `Promise<void>` and `toHaveReceivedMessages` as `void`. They were previously tied to the asserted value's type.
 
 ## [0.7.0] - 2026-07-12
 

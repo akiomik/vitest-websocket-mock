@@ -8,10 +8,8 @@
 
     /* Bundler mode */
     "moduleResolution": "bundler",
-    // `vitest-websocket-mock` is linked from the repo root (file:../../), so its
-    // `declare module 'vitest'` would otherwise resolve to the root's own copy of
-    // vitest and the custom matcher types would not merge. Real consumers that
-    // install from npm do not need this.
+    // Needed only because the package is linked from the repo root; see
+    // "The custom matchers are not recognized by TypeScript" in the README.
     "paths": { "vitest": ["./node_modules/vitest"] },
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
