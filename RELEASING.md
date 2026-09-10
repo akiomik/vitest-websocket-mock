@@ -35,6 +35,14 @@ Throughout, `X.Y.Z` is the new version and `N` the number of the bump PR.
    - repoint the `[Unreleased]` compare link at the new tag and add an
      `[X.Y.Z]` release link above the previous one.
 
+   Commit all of it. `--no-git-tag-version` suppresses npm's own commit, so
+   nothing above is staged for you:
+
+   ```bash
+   git add -A
+   git commit -m "chore: bump version to X.Y.Z"
+   ```
+
 3. Open a PR titled `chore: bump version to X.Y.Z`, wait for CI, and merge it.
    The repository merges with merge commits, so individual commit messages land
    on `main`.
@@ -43,16 +51,24 @@ Throughout, `X.Y.Z` is the new version and `N` the number of the bump PR.
    anything merged in the meantime cannot end up inside the tag:
 
    ```bash
-   awk '/^## \[X.Y.Z\]/{f=1;next} /^## \[/{f=0} f' CHANGELOG.md \
-     | sed 's/^### /## /' > notes.md
+   target=$(gh pr view N --json mergeCommit --jq '.mergeCommit.oid // empty')
+   notes=$(awk '/^## \[X.Y.Z\]/{f=1;next} /^## \[/{f=0} f' CHANGELOG.md \
+             | sed 's/^### /## /')
 
-   gh release create vX.Y.Z \
-     --target "$(gh pr view N --json mergeCommit --jq .mergeCommit.oid)" \
-     --title vX.Y.Z --notes-file notes.md
+   if [ -z "$target" ]; then
+     echo "PR N is not merged yet - refusing to tag"
+   else
+     gh release create vX.Y.Z --target "$target" --title vX.Y.Z --notes "$notes"
+   fi
    ```
 
    The `awk` pulls out this version's changelog section and the `sed` promotes
    its `###` headings to `##`, matching how previous releases were written.
+
+   Do not drop the guard. `gh pr view` prints nothing and still exits 0 while a
+   PR is unmerged, and it can lag briefly right after a merge; an empty
+   `--target` is not an error, it silently tags the default branch instead —
+   the one thing this step exists to prevent.
 
 5. Confirm the publish. Select the run by tag — `--limit 1` alone can hand you
    the *previous* release's run if this one has not been queued yet, which looks
