@@ -3,7 +3,7 @@
  * @copyright Akiomi Kamakura 2023
  */
 
-import type { AsyncExpectationResult, RawMatcherFn } from '@vitest/expect';
+import type { AsyncMatcherResult, Matcher } from 'vitest';
 
 import { matcherHint } from '../matcherUtils';
 import type { DeserializedMessage } from '../websocket';
@@ -14,8 +14,8 @@ import type { ReceiveMessageOptions } from './types';
 const WAIT_DELAY = 1000;
 const TIMEOUT = Symbol('timeout');
 
-export default function deriveToReceiveMessage(name: string, fn: RawMatcherFn): RawMatcherFn {
-  return async function (ws: WS, expected: DeserializedMessage, options?: ReceiveMessageOptions): AsyncExpectationResult {
+export default function deriveToReceiveMessage(name: string, fn: Matcher): Matcher {
+  return async function (ws: WS, expected: DeserializedMessage, options?: ReceiveMessageOptions): AsyncMatcherResult {
     const isWS = ws instanceof WS;
     if (!isWS) {
       return {

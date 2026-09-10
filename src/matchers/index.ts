@@ -11,6 +11,8 @@ import toReceiveMessage from './toReceiveMessage';
 export { toHaveReceivedMessages, toReceiveMessage };
 
 export interface CustomMatchers<R = unknown> {
-  toReceiveMessage<TMessage = object>(message: DeserializedMessage<TMessage>, options?: ReceiveMessageOptions): Promise<R>;
+  // `R` is already `Promise<void>` in the promisified flavours (`.resolves`,
+  // `.rejects`, `expect.poll`), so async matchers return a hard `Promise<void>`.
+  toReceiveMessage<TMessage = object>(message: DeserializedMessage<TMessage>, options?: ReceiveMessageOptions): Promise<void>;
   toHaveReceivedMessages<TMessage = object>(messages: Array<DeserializedMessage<TMessage>>): R;
 }

@@ -42,7 +42,7 @@ is being explored in [#77](https://github.com/akiomik/vitest-websocket-mock/issu
 
 ## Install
 
-`vitest-websocket-mock` requires Vitest as a peer dependency.
+`vitest-websocket-mock` requires Vitest 5 as a peer dependency.
 
 ```bash
 npm install -D vitest-websocket-mock
@@ -356,6 +356,19 @@ you may see errors of the nature:
 You can work around this by installing the setImmediate shim from
 [https://github.com/YuzuJS/setImmediate](https://github.com/YuzuJS/setImmediate) and
 adding `require('setimmediate');` to your `setupTests.js`.
+
+### The custom matchers are not recognized by TypeScript
+
+```
+Property 'toReceiveMessage' does not exist on type 'Assertion<void, WS>'.
+```
+
+The matchers are contributed with [module augmentation][augmentation], which
+only merges into the copy of `vitest` the augmentation resolves to. Deduplicate
+`vitest` if your project resolves more than one, for example a monorepo where a
+nested package pins its own.
+
+[augmentation]: https://www.typescriptlang.org/docs/handbook/declaration-merging.html#module-augmentation
 
 ## Testing React applications
 

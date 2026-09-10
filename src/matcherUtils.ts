@@ -2,7 +2,7 @@
  * @copyright Akiomi Kamakura 2026
  */
 
-import type { MatcherState } from '@vitest/expect';
+import type { MatcherState } from 'vitest';
 
 /**
  * Plain-text replacements for `this.utils.matcherHint` / `printExpected` /

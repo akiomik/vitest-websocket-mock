@@ -3,7 +3,7 @@
  * @copyright Akiomi Kamakura 2023
  */
 
-import type { ExpectationResult } from '@vitest/expect';
+import type { MatcherResult } from 'vitest';
 
 import { deriveToHaveReceivedMessage } from '../derivers';
 import { formatComparison, matcherHint } from '../matcherUtils';
@@ -11,7 +11,7 @@ import type { DeserializedMessage } from '../websocket';
 
 const toHaveReceivedMessages = deriveToHaveReceivedMessage(
   'toHaveReceivedMessages',
-  function (received: Array<DeserializedMessage>, expected: Array<DeserializedMessage>): ExpectationResult {
+  function (received: Array<DeserializedMessage>, expected: Array<DeserializedMessage>): MatcherResult {
     const equalities = expected.map((expectedMsg) =>
       // object comparison to handle JSON protocols
       received.some((receivedMsg) => this.equals(receivedMsg, expectedMsg))

@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- **Breaking:** Vitest 5 is now required (`peerDependencies`: `>=4` to `>=5 <6`). The matcher types are now declared against `vitest` instead of `@vitest/expect`, which Vitest 5 no longer depends on. Vitest 4 and 5 declare `Matchers` with different type parameters, so one build cannot support both.
+- Matcher return types no longer echo the asserted value's type. `toReceiveMessage` returns `Promise<void>`; `toHaveReceivedMessages` returns Vitest's assertion return type.
+
 ## [0.7.0] - 2026-07-12
 
 ### Changed

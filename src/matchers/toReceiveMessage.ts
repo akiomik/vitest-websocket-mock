@@ -3,12 +3,12 @@
  * @copyright Akiomi Kamakura 2023
  */
 
-import type { ExpectationResult } from '@vitest/expect';
+import type { MatcherResult } from 'vitest';
 
 import { deriveToReceiveMessage } from '../derivers';
 import { formatComparison, matcherHint } from '../matcherUtils';
 
-const toReceiveMessage = deriveToReceiveMessage('toReceiveMessage', function (received, expected): ExpectationResult {
+const toReceiveMessage = deriveToReceiveMessage('toReceiveMessage', function (received, expected): MatcherResult {
   const pass = this.equals(received, expected);
 
   const message = pass
