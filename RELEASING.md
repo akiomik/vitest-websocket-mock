@@ -39,9 +39,13 @@ Throughout, `X.Y.Z` is the new version and `N` the number of the bump PR.
    nothing above is staged for you:
 
    ```bash
-   git add -A
+   git add package.json package-lock.json examples/*/package-lock.json CHANGELOG.md
    git commit -m "chore: bump version to X.Y.Z"
    ```
+
+   Those five paths are the whole of a version bump. Staging them by name rather
+   than with `git add -A` keeps anything else in your working tree out of the
+   release commit, and makes an unexpectedly empty stage visible.
 
 3. Open a PR titled `chore: bump version to X.Y.Z`, wait for CI, and merge it.
    The repository merges with merge commits, so individual commit messages land
@@ -51,24 +55,33 @@ Throughout, `X.Y.Z` is the new version and `N` the number of the bump PR.
    anything merged in the meantime cannot end up inside the tag:
 
    ```bash
+   version=X.Y.Z
    target=$(gh pr view N --json mergeCommit --jq '.mergeCommit.oid // empty')
-   notes=$(awk '/^## \[X.Y.Z\]/{f=1;next} /^## \[/{f=0} f' CHANGELOG.md \
-             | sed 's/^### /## /')
+   notes=$(awk -v v="$version" 'index($0,"## [" v "]")==1{f=1;next} /^## \[/{f=0} f' \
+             CHANGELOG.md | sed 's/^### /## /')
 
-   if [ -z "$target" ]; then
-     echo "PR N is not merged yet - refusing to tag"
+   if [ -z "$target" ] || [ -z "$notes" ]; then
+     echo "PR N unmerged, or no changelog section for $version - refusing to tag"
    else
-     gh release create vX.Y.Z --target "$target" --title vX.Y.Z --notes "$notes"
+     gh release create "v$version" --target "$target" \
+       --title "v$version" --notes "$notes"
    fi
    ```
 
    The `awk` pulls out this version's changelog section and the `sed` promotes
    its `###` headings to `##`, matching how previous releases were written.
 
-   Do not drop the guard. `gh pr view` prints nothing and still exits 0 while a
-   PR is unmerged, and it can lag briefly right after a merge; an empty
-   `--target` is not an error, it silently tags the default branch instead —
-   the one thing this step exists to prevent.
+   Do not drop either half of the guard, and keep the version in one variable.
+   Both inputs fail quietly:
+
+   - `gh pr view` prints nothing and still exits 0 while a PR is unmerged, and
+     it can lag briefly right after a merge. An empty `--target` is not an
+     error — it silently tags the default branch, the one thing this step
+     exists to prevent.
+   - `awk` prints nothing if the changelog has no matching heading. `gh` only
+     checks that `--notes` was passed, not that it is non-empty, so the release
+     is created with an empty body and publishing starts. That one is
+     recoverable with `gh release edit --notes`; the tag is not.
 
 5. Confirm the publish. Select the run by tag — `--limit 1` alone can hand you
    the *previous* release's run if this one has not been queued yet, which looks
