@@ -103,5 +103,4 @@ the public API, the supported Vitest range, or the shipped types, and a patch
 only for fixes that leave all of those alone.
 
 How a breaking commit is marked is in [CONTRIBUTING.md](CONTRIBUTING.md), where
-the author of the change will see it. By the time you are here, the marking has
-either happened or it has not.
+the author of the change will see it.
