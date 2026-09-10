@@ -102,7 +102,5 @@ history follows that: 0.6.0 and 0.7.0 both carried breaking changes, and so did
 the public API, the supported Vitest range, or the shipped types, and a patch
 only for fixes that leave all of those alone.
 
-Mark the breaking commit per [Conventional Commits][cc]: `!` before the `:` and
-a `BREAKING CHANGE:` footer.
-
-[cc]: https://www.conventionalcommits.org/en/v1.0.0/
+How a breaking commit is marked is in [CONTRIBUTING.md](CONTRIBUTING.md), where
+the author of the change will see it.
