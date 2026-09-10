@@ -17,8 +17,7 @@ Throughout, `X.Y.Z` is the new version and `N` the number of the bump PR.
    ```bash
    git switch -c chore-bump-version-to-X.Y.Z
    npm version X.Y.Z --no-git-tag-version
-   (cd examples/hooks && npm install --package-lock-only)
-   (cd examples/redux-saga && npm install --package-lock-only)
+   for d in examples/*/; do (cd "$d" && npm install --package-lock-only); done
    ```
 
    `npm version` updates `package.json` and both version fields in
