@@ -364,9 +364,9 @@ Property 'toReceiveMessage' does not exist on type 'Assertion<void, WS>'.
 ```
 
 The matchers are contributed with [module augmentation][augmentation], which
-only merges into the copy of `vitest` the augmentation resolves to. If your
-project has more than one — a monorepo with a nested pin, or a `file:` / `link:`
-install — deduplicate `vitest`.
+only merges into the copy of `vitest` the augmentation resolves to. Deduplicate
+`vitest` if your project resolves more than one, for example a monorepo where a
+nested package pins its own.
 
 [augmentation]: https://www.typescriptlang.org/docs/handbook/declaration-merging.html#module-augmentation
 
