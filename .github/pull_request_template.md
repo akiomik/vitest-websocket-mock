@@ -5,4 +5,7 @@
       supported Vitest range, the commit is marked `type!:` and carries a
       `BREAKING CHANGE:` footer
 
-See CONTRIBUTING.md.
+<!-- Rendered as a PR body, so this has to be an absolute URL: GitHub resolves
+     relative links in issue and PR bodies against the page, not the repo. -->
+
+See [CONTRIBUTING.md](https://github.com/akiomik/vitest-websocket-mock/blob/main/CONTRIBUTING.md).
