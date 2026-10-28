@@ -1,5 +1,5 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.5.3/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.6.3/schema.json",
   "vcs": { "enabled": true, "clientKind": "git", "useIgnoreFile": true },
   "files": { "includes": ["**", "!examples"] },
   "formatter": {
@@ -18,6 +18,12 @@
       "trailingCommas": "es5",
       "semicolons": "always"
     }
+  },
+  "yaml": {
+    "formatter": { "quoteStyle": "single" }
+  },
+  "markdown": {
+    "formatter": { "enabled": false }
   },
   "assist": {
     "enabled": true,
